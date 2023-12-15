@@ -1,1 +1,3 @@
 import py
+
+python.time()
