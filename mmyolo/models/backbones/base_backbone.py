@@ -89,9 +89,12 @@ class BaseBackbone(BaseModule, metaclass=ABCMeta):
         super().__init__(init_cfg)
         self.num_stages = len(arch_setting)
         self.arch_setting = arch_setting
-
+        #    arch_setting = [[64, 128, 3, True, False], [128, 256, 6, True, False],
+        #        [256, 512, 6, True, False], [512, 1024, 3, True, True]]
+        #
+        #  out_indices: Tuple[int] = (2, 3, 4),
         assert set(out_indices).issubset(
-            i for i in range(len(arch_setting) + 1))
+            i for i in range(len(arch_setting) + 1))  # 0,1,2,3,4
 
         if frozen_stages not in range(-1, len(arch_setting) + 1):
             raise ValueError('"frozen_stages" must be in range(-1, '
@@ -110,7 +113,9 @@ class BaseBackbone(BaseModule, metaclass=ABCMeta):
 
         self.stem = self.build_stem_layer()
         self.layers = ['stem']
-
+        #    arch_setting = [[64, 128, 3, True, False], [128, 256, 6, True, False],
+        #        [256, 512, 6, True, False], [512, 1024, 3, True, True]]
+        # in_channels, out_channels, num_blocks, add_identity, use_spp
         for idx, setting in enumerate(arch_setting):
             stage = []
             stage += self.build_stage_layer(idx, setting)
