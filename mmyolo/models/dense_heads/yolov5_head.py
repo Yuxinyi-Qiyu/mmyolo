@@ -466,7 +466,7 @@ class YOLOv5Head(BaseDenseHead):
             outs = self(x)
             # Fast version
             loss_inputs = outs + (batch_data_samples['bboxes_labels'],
-                                  batch_data_samples['img_metas'])
+                                batch_data_samples['img_metas'])
             losses = self.loss_by_feat(*loss_inputs)
 
         return losses

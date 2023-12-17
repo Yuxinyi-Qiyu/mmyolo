@@ -298,7 +298,7 @@ class YOLOv8Head(YOLOv5Head):
             self.featmap_sizes_train = current_featmap_sizes
 
             mlvl_priors_with_stride = self.prior_generator.grid_priors(
-                self.featmap_sizes_train,
+                self.featmap_sizes_train,  # [80, 80]
                 dtype=cls_scores[0].dtype,
                 device=cls_scores[0].device,
                 with_stride=True)

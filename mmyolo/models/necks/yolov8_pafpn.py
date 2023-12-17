@@ -5,9 +5,12 @@ import torch.nn as nn
 from mmdet.utils import ConfigType, OptMultiConfig
 
 from mmyolo.registry import MODELS
-from .. import CSPLayerWithTwoConv
-from ..utils import make_divisible, make_round
-from .yolov5_pafpn import YOLOv5PAFPN
+# from .. import CSPLayerWithTwoConv
+# from ..utils import make_divisible, make_round
+# from .yolov5_pafpn import YOLOv5PAFPN
+from mmyolo.models.layers import CSPLayerWithTwoConv
+from mmyolo.models.utils import make_divisible, make_round
+from mmyolo.models.necks.yolov5_pafpn import YOLOv5PAFPN
 
 
 @MODELS.register_module()

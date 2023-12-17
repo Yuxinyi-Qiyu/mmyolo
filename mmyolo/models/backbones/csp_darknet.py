@@ -8,9 +8,12 @@ from mmdet.models.backbones.csp_darknet import CSPLayer, Focus
 from mmdet.utils import ConfigType, OptMultiConfig
 
 from mmyolo.registry import MODELS
-from ..layers import CSPLayerWithTwoConv, SPPFBottleneck
-from ..utils import make_divisible, make_round
-from .base_backbone import BaseBackbone
+# from ..layers import CSPLayerWithTwoConv, SPPFBottleneck
+# from ..utils import make_divisible, make_round
+# from .base_backbone import BaseBackbone
+from mmyolo.models.layers import CSPLayerWithTwoConv, SPPFBottleneck
+from mmyolo.models.utils import make_divisible, make_round
+from mmyolo.models.backbones.base_backbone import BaseBackbone
 
 
 @MODELS.register_module()
@@ -173,7 +176,7 @@ class YOLOv8CSPDarknet(BaseBackbone):
             channels in each layer by this amount. Defaults to 1.0.
         input_channels (int): Number of input image channels. Defaults to: 3.
         out_indices (Tuple[int]): Output from which stages.
-            Defaults to (2, 3, 4).
+            Defaults to (2, 3, 4). ##########(1, 2, 3, 4)
         frozen_stages (int): Stages to be frozen (stop grad and set eval
             mode). -1 means not freezing any parameters. Defaults to -1.
         norm_cfg (dict): Dictionary to construct and config norm layer.
@@ -199,6 +202,11 @@ class YOLOv8CSPDarknet(BaseBackbone):
         (1, 256, 52, 52)
         (1, 512, 26, 26)
         (1, 1024, 13, 13)
+        ... 
+        inputs = torch.rand(1, 3, 640, 640)
+        (1, 256, 80, 80)
+        (1, 512, 40, 40)
+        (1, 1024, 20, 20)
     """
     # From left to right:
     # in_channels, out_channels, num_blocks, add_identity, use_spp
@@ -222,7 +230,7 @@ class YOLOv8CSPDarknet(BaseBackbone):
                  act_cfg: ConfigType = dict(type='SiLU', inplace=True),
                  norm_eval: bool = False,
                  init_cfg: OptMultiConfig = None):
-        self.arch_settings[arch][-1][1] = last_stage_out_channels
+        self.arch_settings[arch][-1][1] = last_stage_out_channels  # refer to None
         super().__init__(
             self.arch_settings[arch],
             deepen_factor,
